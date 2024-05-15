@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Gestion_SchoolModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="classe">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="libelle" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="niveau" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="specialite" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="etudiant" Relationship="Self.FK_etudiant_classe" FromRole="classe" ToRole="etudiant" />
+  </EntityType>
+  <EntityType Name="etudiant">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="prenom" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="nom" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="credit" Type="Int32" />
+    <Property Name="reglement" Type="Int32" />
+    <Property Name="annescolaire" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="idclasse" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="classe" Relationship="Self.FK_etudiant_classe" FromRole="etudiant" ToRole="classe" />
+  </EntityType>
+  <EntityType Name="utilisateur">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="login" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <Association Name="FK_etudiant_classe">
+    <End Role="classe" Type="Self.classe" Multiplicity="1" />
+    <End Role="etudiant" Type="Self.etudiant" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="classe">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="etudiant">
+        <PropertyRef Name="idclasse" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="Gestion_SchoolEntities1" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="classe" EntityType="Self.classe" />
+    <EntitySet Name="etudiant" EntityType="Self.etudiant" />
+    <EntitySet Name="utilisateur" EntityType="Self.utilisateur" />
+    <AssociationSet Name="FK_etudiant_classe" Association="Self.FK_etudiant_classe">
+      <End Role="classe" EntitySet="classe" />
+      <End Role="etudiant" EntitySet="etudiant" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

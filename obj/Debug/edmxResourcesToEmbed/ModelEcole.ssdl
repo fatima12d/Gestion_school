@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Gestion_SchoolModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="classe">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="libelle" Type="varchar" MaxLength="50" />
+    <Property Name="niveau" Type="varchar" MaxLength="50" />
+    <Property Name="specialite" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="etudiant">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="prenom" Type="varchar" MaxLength="50" />
+    <Property Name="nom" Type="varchar" MaxLength="50" />
+    <Property Name="credit" Type="int" />
+    <Property Name="reglement" Type="int" />
+    <Property Name="annescolaire" Type="varchar" MaxLength="50" />
+    <Property Name="idclasse" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="utilisateur">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="login" Type="varchar" MaxLength="50" />
+    <Property Name="password" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <Association Name="FK_etudiant_classe">
+    <End Role="classe" Type="Self.classe" Multiplicity="1" />
+    <End Role="etudiant" Type="Self.etudiant" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="classe">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="etudiant">
+        <PropertyRef Name="idclasse" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="Gestion_SchoolModelStoreContainer">
+    <EntitySet Name="classe" EntityType="Self.classe" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="etudiant" EntityType="Self.etudiant" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="utilisateur" EntityType="Self.utilisateur" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_etudiant_classe" Association="Self.FK_etudiant_classe">
+      <End Role="classe" EntitySet="classe" />
+      <End Role="etudiant" EntitySet="etudiant" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
